@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Input</title>
+    <script>
+      window.onload = function() {
+         let objCountTime = {
+            letters: [
+
+            ]
+          }
+          let start = 0;
+          let time;
+          let pressed;
+          const inputText = document.getElementById("inputText");
+
+          inputText.addEventListener("keyup", processKeyUp, false);
+
+          inputText.addEventListener("keydown", processKeyDown, false);
+
+          function processKeyDown(e) {
+              if(!time) time = (new Date()).getTime() * 1000;
+                start = (new Date()).getTime() * 1000;
+          }
+
+          function processKeyUp(e) {
+              const finish = (new Date()).getTime() * 1000;
+              const delta = finish - start;
+              let timeLastPress = "None";
+
+              if(objCountTime.letters.length != 0)
+                timeLastPress = start - pressed;
+
+              objCountTime.letters.push({
+                name: e.key,
+                pressed: msToTime(start - time),
+                released: msToTime(finish - time),
+                duration: msToTime(delta),
+                time_after_last_press: timeLastPress != 'None' ? msToTime(timeLastPress) : 'None'
+              });
+              pressed = start;
+              start = 0;
+
+
+
+              if (e.keyCode == 27) {
+                inputText.value = "";
+                time = 0;
+                let letters = objCountTime.letters;
+                objCountTime.letters = letters.splice(0, letters.length - 1);
+                options = {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(objCountTime)
+                }
+                objCountTime = {
+                  letters : [
+
+                ]};
+                fetch('/send', options)
+              }
+          }
+
+          function msToTime(duration) {
+            console.log(duration);
+            var milliseconds = parseInt((duration % 1000000)),
+              seconds = Math.floor((duration / 1000000) % 60),
+              minutes = Math.floor((duration / (1000000 * 60)) % 60),
+              hours = Math.floor((duration / (1000000 * 60 * 60)) % 24);
+
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
+            milliseconds = (milliseconds < 100) ? "0" + milliseconds : milliseconds;
+            milliseconds = (milliseconds < 10) ? "00" + milliseconds : milliseconds;
+
+            return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+          }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="">
+      <h2>Input your text</h2>
+      <p id="time"></p>
+    </div>
+    <form class="">
+      <div class="input-group mb-3">
+        <input id="inputText" class="form-control" type="text" name="inputText" placeholder="text...">
+        <div class="input-group-append">
+          <span class="input-group-text" id="basic-addon2">text</span>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
