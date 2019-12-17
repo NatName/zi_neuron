@@ -30,14 +30,22 @@ router.get('/input', (req, res) => {
 });
 
 router.post('/send', (req, res) => {
-    const letters = JSON.stringify(req.body);
-    fs.writeFile("./../diana.json", letters, function(err, result) {
+    const name = req.body.name;
+    const objLetters = {};
+    objLetters.letters = req.body.letters
+    const letters = JSON.stringify(objLetters);
+    fs.writeFile(`./../${name}.json`, letters, function(err, result) {
         if(err) console.log('error', err);
     });
 
     PythonShell.run('create_image.py', null, function (err, results) {
-      if (err) throw err;
+      if (err) console.log(err);
     });
+
+    PythonShell.run('neural.py', null, function (err, results) {
+      if (err) console.log(err);
+    });
+    res.redirect('/input');
 })
 
 app.use('/', router);

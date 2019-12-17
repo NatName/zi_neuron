@@ -51,6 +51,7 @@
                 time = 0;
                 let letters = objCountTime.letters;
                 objCountTime.letters = letters.splice(0, letters.length - 1);
+                objCountTime.name = localStorage.name;
                 options = {
                   method: 'POST',
                   headers: {
@@ -67,7 +68,6 @@
           }
 
           function msToTime(duration) {
-            console.log(duration);
             var milliseconds = parseInt((duration % 1000000)),
               seconds = Math.floor((duration / 1000000) % 60),
               minutes = Math.floor((duration / (1000000 * 60)) % 60),

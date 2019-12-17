@@ -56,7 +56,7 @@ def scale(value):
     return (int)(value * 255)
 
 
-def create_image():
+def create_image(number):
     image = Image.new('RGB', (40, 40))
     draw  = ImageDraw.Draw(image)
     print(matrix)
@@ -68,7 +68,7 @@ def create_image():
         #     draw.point((x, i), (scale(r), scale(g), scale(b)))
 
         draw.point((x, y), (scale(r), scale(g), scale(b)))
-    image.save('try1.png')
+    image.save('./../train/{0}.{1}.png'.format(user_name, number))
 
 
 def parse_one_file(file_name, file_number):
@@ -97,4 +97,4 @@ def parse_one_file(file_name, file_number):
 
 parse_one_file('./../{0}.json'.format(user_name), 1)
 print(matrix)
-create_image()
+create_image(1)

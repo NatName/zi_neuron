@@ -6,18 +6,29 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Login</title>
   </head>
+  <script>
+    window.onload = function() {
+      const inputText = document.getElementById("name");
+      const btn = document.getElementById("button");
+
+      btn.addEventListener("click", (e) => {
+        localStorage.name = inputText.value;
+      }, false);
+
+    }
+  </script>
   <body>
     <div class="">
       <h2>Input your name</h2>
     </div>
     <form class="" method="post">
       <div class="input-group mb-3">
-        <input class="form-control" type="text" id="title" name="title" placeholder="name...">
+        <input class="form-control" type="text" id="name" name="name" placeholder="name...">
         <div class="input-group-append">
           <span class="input-group-text" id="basic-addon2">name</span>
         </div>
       </div>
-      <button class="btn btn-secondary" type="submit">Add</button>
+      <button class="btn btn-secondary" type="submit" id="button">Add</button>
     </form>
   </body>
 </html>
