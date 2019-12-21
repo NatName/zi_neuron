@@ -42,9 +42,9 @@ router.post('/send', (req, res) => {
       if (err) console.log(err);
     });
 
-    PythonShell.run('neural.py', null, function (err, results) {
-      if (err) console.log(err);
-    });
+    // PythonShell.run('neural.py', null, function (err, results) {
+    //   if (err) console.log(err);
+    // });
     res.redirect('/input');
 })
 
